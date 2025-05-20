@@ -1,0 +1,6 @@
+# Ignore build directories
+build
+
+# VS code settings
+
+.vscode
