@@ -11,11 +11,6 @@ players: Player = []
 # Json expected by /create_tournament
 # {
 #   "name": "string",
-#   "tournament_format": {
-#     "tournament_type": int,
-#     "teams_per_group": int,
-#     "teams_advance": int
-#   },
 #   "match_format": int
 # }
 
@@ -23,24 +18,21 @@ players: Player = []
 def create_tournament():
     data = request.get_json()
 
-    if not data or "name" not in data or "tournament_format" not in data or "match_format" not in data:
+    if not data or "name" not in data or "match_format" not in data:
         return jsonify({"error": "Missing required fields"}), 400
 
     name = data.get("name")
-    tournament_format_json = data.get("tournament_format")
     tournament_id = len(tournaments)+1
     
-    teams_per_group = tournament_format_json.get("teams_per_group")
-    teams_advance = tournament_format_json.get("teams_advance")
-    
-    match_format = MatchFormat(data.get("match_format"))
+    raw_match_format = data.get("match_format").upper
+    match_format = MatchFormat[raw_match_format]
     
     tournament = Tournament(tournament_id, name, match_format)
     tournaments.append(tournament)
 
     response_data = {
         "name": name,
-        "match_format": match_format.name
+        "match_format": raw_match_format
     }
     print("Succesfully created new tournament:")
     tournament.print_values()

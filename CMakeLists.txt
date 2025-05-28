@@ -15,7 +15,7 @@ find_package(nlohmann_json REQUIRED)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
-set(RESOURCES_DIR ${CMAKE_SOURCE_DIR}/resources)
+set(RESOURCES_DIR ${CMAKE_SOURCE_DIR}/frontend/resources)
 
 qt_standard_project_setup()
 set(QT_LIBRARIES Qt6::Core Qt6::Widgets Qt6::Gui)
@@ -25,7 +25,7 @@ set(NLOHMANN_JSON nlohmann_json::nlohmann_json)
 file(GLOB SOURCE_FILES
     ${CMAKE_SOURCE_DIR}/frontend/*.cpp
     ${CMAKE_SOURCE_DIR}/frontend/*.h
-    ${RESOURCES_DIR}/images.qrc
+    ${RESOURCES_DIR}/resources.qrc
 )
 
 add_executable(Tournament_tracker ${SOURCE_FILES})

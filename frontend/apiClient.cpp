@@ -1,14 +1,15 @@
-#include "api_client.h"
+#include "apiClient.h"
 #include <cpr/cpr.h>
 
 // Json expected by /create_tournament
 // {
 //   "name": "string",
-//   "match_format": int
-nlohmann::json ApiClient::create_tournament(const QString& name, int match_format) {
+//   "matchFormat": int
+nlohmann::json ApiClient::createTournament(const QString& name, QString matchFormat) {
+    matchFormat.remove(' ');
     nlohmann::json payload = {
         {"name", name.toStdString()},
-        {"match_format", match_format}
+        {"matchFormat", matchFormat.toStdString()}
     };
 
     cpr::Response r = cpr::Post(
@@ -28,7 +29,7 @@ nlohmann::json ApiClient::create_tournament(const QString& name, int match_forma
 //  {
 //    "name": "string",
 //  }
-nlohmann::json ApiClient::create_team(const QString& name) {
+nlohmann::json ApiClient::createTeam(const QString& name) {
     nlohmann::json payload = {
         {"name", name.toStdString()}
     };
@@ -51,7 +52,7 @@ nlohmann::json ApiClient::create_team(const QString& name) {
 //   "name": "string",
 // }
 
-nlohmann::json ApiClient::create_player(const QString& name) {
+nlohmann::json ApiClient::createPlayer(const QString& name) {
     nlohmann::json payload = {
         {"name", name.toStdString()}
     };

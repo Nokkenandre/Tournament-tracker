@@ -20,7 +20,7 @@ class DynamicInputDialog : public QDialog {
     Q_OBJECT
 
 public:
-    DynamicInputDialog(const QString window_title, const QList<Field>& fields, QWidget* parent = nullptr);
+    DynamicInputDialog(const QString windowTitle, const QList<Field>& fields, QWidget* parent = nullptr);
     QMap<QString, QString> getValues() const;
 
 private:

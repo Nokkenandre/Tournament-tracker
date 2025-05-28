@@ -2,20 +2,20 @@ from dataclasses import dataclass
 from enum import Enum
 
 class MatchFormat(Enum):
-    RACE_TO_2 = 1
-    MERCY_5 = 2
+    RACETO2 = 1
+    MERCY5 = 2
 
 
 class Tournament: 
     def __init__(self, tournament_id, name, match_format):
-        self.boj_id = tournament_id # Todo: add id
+        self.obj_id = tournament_id # Todo: add id
         self.name = name
         self.teams: Team = []
         self.match_format = match_format
         self.bracket = Bracket()
         
     def print_values(self):
-        print(f"{self.tournament_id=} \n{self.name=} \n{self.teams=} \n{self.tournament_format=} \n{self.match_format=}")
+        print(f"{self.obj_id=} \n{self.name=} \n{self.teams=} \n{self.match_format=}")
     
 class Team:
     def __init__(self, team_id, name):

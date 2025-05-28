@@ -1,4 +1,4 @@
-#include "input_dialog.h"
+#include "inputDialog.h"
 
 #include <QVBoxLayout>
 #include <QHBoxLayout>
@@ -9,9 +9,9 @@
 #include <QStandardItemModel>
 #include <QStandardItem>
 
-DynamicInputDialog::DynamicInputDialog(const QString window_title, const QList<Field>& fields, QWidget* parent)
+DynamicInputDialog::DynamicInputDialog(const QString windowTitle, const QList<Field>& fields, QWidget* parent)
     : QDialog(parent) {
-    setWindowTitle(window_title);
+    setWindowTitle(windowTitle);
     layout = new QVBoxLayout(this);
 
     for (const auto& field : fields) {
