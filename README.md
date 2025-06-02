@@ -1,6 +1,6 @@
 # Tournament-tracker
 
-This is a project to track tournaments, teams and players.
+This is a project to track tournaments and teams
 
 ## Build GUI
 ### Remove old build file:

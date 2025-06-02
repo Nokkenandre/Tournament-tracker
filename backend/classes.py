@@ -29,8 +29,7 @@ class Team:
     def __init__(self, team_id, name):
         self.obj_id = team_id
         self.name = name
-        
-        self.players: Player = []
+
         self.tournaments: Tournament = []
         
     def print_values(self):
@@ -42,15 +41,6 @@ class Team:
             "name": self.name,
             "tournaments": [{"id": t.obj_id, "name": t.name} for t in self.tournaments]
         }
-        
-class Player:
-    def __init__(self, player_id, name):
-        self.obj_id = player_id
-        self.name = name
-        self.teams: Team = []
-    
-    def print_values(self):
-        print(self)
 
 
 class Bracket:
