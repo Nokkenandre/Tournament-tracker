@@ -1,15 +1,17 @@
 #include "apiClient.h"
 #include <cpr/cpr.h>
+#include <iostream>
 
-// Json expected by /create_tournament
+// Json expected by /createTournament
 // {
 //   "name": "string",
 //   "matchFormat": int
-nlohmann::json ApiClient::createTournament(const QString& name, QString matchFormat) {
+// }
+nlohmann::json apiClient::createTournament(const QString& name, QString matchFormat) {
     matchFormat.remove(' ');
     nlohmann::json payload = {
         {"name", name.toStdString()},
-        {"matchFormat", matchFormat.toStdString()}
+        {"match_format", matchFormat.toStdString()}
     };
 
     cpr::Response r = cpr::Post(
@@ -18,18 +20,19 @@ nlohmann::json ApiClient::createTournament(const QString& name, QString matchFor
         cpr::Body{payload.dump()}
     );
 
-    if (r.status_code == 200) {
+    if (r.status_code == 201) {
         return nlohmann::json::parse(r.text);
     } else {
+        std::cerr << r.status_code << r.text << std::endl;
         return {{"error", "Request failed"}, {"status", r.status_code}};
     }
 }
 
-//  Json expected by /create_team
+//  Json expected by /createTeam
 //  {
 //    "name": "string",
 //  }
-nlohmann::json ApiClient::createTeam(const QString& name) {
+nlohmann::json apiClient::createTeam(const QString& name) {
     nlohmann::json payload = {
         {"name", name.toStdString()}
     };
@@ -40,19 +43,19 @@ nlohmann::json ApiClient::createTeam(const QString& name) {
         cpr::Body{payload.dump()}
     );
 
-    if (r.status_code == 200) {
+    if (r.status_code == 201) {
         return nlohmann::json::parse(r.text);
     } else {
+        std::cerr << r.status_code << r.text << std::endl;
         return {{"error", "Request failed"}, {"status", r.status_code}};
     }
 }
 
-// Json expected by /create_player
+// Json expected by /createPlayer
 // {
 //   "name": "string",
 // }
-
-nlohmann::json ApiClient::createPlayer(const QString& name) {
+nlohmann::json apiClient::createPlayer(const QString& name) {
     nlohmann::json payload = {
         {"name", name.toStdString()}
     };
@@ -66,6 +69,28 @@ nlohmann::json ApiClient::createPlayer(const QString& name) {
     if (r.status_code == 200) {
         return nlohmann::json::parse(r.text);
     } else {
+        std::cerr << r.status_code << r.text << std::endl;
+        return {{"error", "Request failed"}, {"status", r.status_code}};
+    }
+}
+
+// Returns info about all tournaments
+nlohmann::json apiClient::getTournaments(const int startIndex, const int subsetSize) {
+    nlohmann::json payload = {
+        {"start_index", startIndex},
+        {"subset_size", subsetSize}
+    };
+
+    cpr::Response r = cpr::Post(
+        cpr::Url{"http://127.0.0.1:5000/get_tournaments"},
+        cpr::Header{{"Content-Type", "application/json"}},
+        cpr::Body{payload.dump()}
+    );
+
+    if (r.status_code == 200) {
+        return nlohmann::json::parse(r.text);
+    } else {
+        std::cerr << r.status_code << r.text << std::endl;
         return {{"error", "Request failed"}, {"status", r.status_code}};
     }
 }

@@ -1,6 +1,7 @@
 from classes import *
 from backend_services import *
 from flask import Flask, jsonify, request, abort
+import sys
 
 app = Flask(__name__)
 
@@ -19,13 +20,14 @@ def create_tournament():
     data = request.get_json()
 
     if not data or "name" not in data or "match_format" not in data:
+        print("Error: Missing required fields", file=sys.stderr)
         return jsonify({"error": "Missing required fields"}), 400
 
     name = data.get("name")
     tournament_id = len(tournaments)+1
     
-    raw_match_format = data.get("match_format").upper
-    match_format = MatchFormat[raw_match_format]
+    raw_match_format = data.get("match_format").upper()
+    match_format = Match_format[raw_match_format]
     
     tournament = Tournament(tournament_id, name, match_format)
     tournaments.append(tournament)
@@ -49,6 +51,7 @@ def add_team():
     data = request.get_json()
 
     if not data or "name" not in data:
+        print("Error: Missing required fields", file=sys.stderr)
         return jsonify({"error": "Missing required fields"}), 400
 
     name = data.get("name")
@@ -62,7 +65,7 @@ def add_team():
     }
     print("Succesfully created new team:")
     team.print_values()
-    return jsonify(response_data),
+    return jsonify(response_data), 201
  
 
 # Json expected by /create_player
@@ -75,6 +78,7 @@ def add_player():
     data = request.get_json()
 
     if not data or "name" not in data:
+        print("Error: Missing required fields", file=sys.stderr)
         return jsonify({"error": "Missing required fields"}), 400
     
     name = data.get("name")
@@ -109,17 +113,15 @@ def add_player_to_team():
     
     team.players.append(player) # Add player to the team
     player.teams.appent(team) # Add team to the player to track what team they are on
-    
-    
 
 # Json expected by /add_team_to_tournament
 # {
 #   "team": tournament_id,
 #   "player": team_id
-#}        
+#}
 
 @app.route("/add_team_to_tournament", methods=["POST"])
-def add_team_to_tournament(team: Team, tournament: Tournament):
+def add_team_to_tournament():
     data = request.get_json()
     
     tournament_id = data.get("tournament_id")
@@ -130,6 +132,17 @@ def add_team_to_tournament(team: Team, tournament: Tournament):
     
     tournament.teams.append(team) # Add team to the tournament
     team.tournaments.append(tournament) # Add tournament to the team to track what tournament they are in
+    
+# Returns a subset of tournaments
+@app.route("/get_tournaments", methods=["POST"])
+def get_tournaments():
+    data = request.get_json()
+    start = int(data.get("start_index"))
+    subset_size = int(data.get("subset_size"))
+    end = start + subset_size
+    subset = tournaments[start:end]
+    subset_dicts = [t.to_dict() for t in subset]
+    return jsonify(subset_dicts)
     
 if __name__ == "__main__":
     app.run(host="localhost", port=5000)  # Running the server on localhost:5000

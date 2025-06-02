@@ -16,6 +16,8 @@ class mainPage : public QWidget {
     Q_OBJECT
 
 public:
+    const int displaySize = 10;
+    int displayIndex = 0;
     explicit mainPage(QWidget* parent = nullptr) : QWidget(parent) {
         auto* layout = new QVBoxLayout(this);
 
@@ -53,7 +55,7 @@ public:
         layout->setContentsMargins(20, 20, 20, 20);
         layout->setSpacing(15);
 
-        connect(createButton, &QPushButton::clicked, this, &mainPage::goToTournamentPage);
+        connect(createButton, &QPushButton::clicked, this, createTournamentPopup);
     }
 
     void createTournamentPopup() {
@@ -66,8 +68,8 @@ public:
         DynamicInputDialog dialog(dialogName, fields, this);
         if (dialog.exec() == QDialog::Accepted) {
             QMap<QString, QString> values = dialog.getValues();
-            tournamentList->addItem(values["Tournament name"]);
-            ApiClient::createTournament(values["Tournament name"], values["Match format"]);
+            apiClient::createTournament(values["Tournament name"], values["Match format"]);
+            updatetournamentList(displayIndex, displaySize);
         }
     }
 
@@ -77,6 +79,19 @@ public:
             QString name = item->text();
             QMessageBox::information(this, "Tournament Selected", "You selected: " + name);
         }
+    }
+
+    void updatetournamentList(int displayIndex, int displaySize) {
+        tournamentList->clear();
+        nlohmann::json tournamentSubset = apiClient::getTournaments(displayIndex, displaySize);
+        for (const auto& tournament : tournamentSubset) {
+            std::string name = tournament["name"];
+            int id = tournament["id"];
+            QListWidgetItem* item = new QListWidgetItem(QString::fromStdString(name));
+            item->setData(Qt::UserRole, id);
+            tournamentList->addItem(item);
+        }
+        
     }
 
 signals:

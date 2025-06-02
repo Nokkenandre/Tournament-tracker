@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from enum import Enum
 
-class MatchFormat(Enum):
+class Match_format(Enum):
     RACETO2 = 1
     MERCY5 = 2
 
@@ -17,6 +17,14 @@ class Tournament:
     def print_values(self):
         print(f"{self.obj_id=} \n{self.name=} \n{self.teams=} \n{self.match_format=}")
     
+    def to_dict(self):
+        return {
+            "id": self.obj_id, 
+            "name": self.name,
+            "teams": [{"id": t.obj_id, "name": t.name} for t in self.teams],
+            "match_format": self.match_format.name
+        }
+
 class Team:
     def __init__(self, team_id, name):
         self.obj_id = team_id
@@ -26,7 +34,14 @@ class Team:
         self.tournaments: Tournament = []
         
     def print_values(self):
-        print(f"{self.team_id=} \n{self.name=} \n{self.Players}")
+        print(f"{self.team_id=} \n{self.name=} \n{self.Players=}")
+    
+    def to_dict(self):
+        return {
+            "id": self.obj_id,
+            "name": self.name,
+            "tournaments": [{"id": t.obj_id, "name": t.name} for t in self.tournaments]
+        }
         
 class Player:
     def __init__(self, player_id, name):
