@@ -1,5 +1,6 @@
 <RCC>
     <qresource prefix="/">
         <file>favicon.ico</file>
+        <file>backButton.png</file>
     </qresource>
 </RCC>

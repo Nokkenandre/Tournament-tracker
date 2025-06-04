@@ -20,44 +20,39 @@ public:
         QLabel* title = new QLabel("Tournament Manager");
         title->setAlignment(Qt::AlignCenter);
         title->setStyleSheet("font-size: 24px; font-weight: bold; margin-bottom: 20px;");
+        
+        QPixmap pixmap(":backButton.png");
+        QIcon icon(pixmap);
 
-        createButton = new QPushButton("➕ Create New Tournament", this);
-        createButton->setStyleSheet(
-            "QPushButton {"
-            "  background-color: #3498db;"
-            "  color: white;"
-            "  padding: 10px;"
-            "  border-radius: 8px;"
-            "  font-size: 16px;"
-            "}"
-            "QPushButton:hover {"
-            "  background-color: #2980b9;"
-            "}"
+        QPushButton* backButton = new QPushButton;
+        backButton->setIcon(icon);
+        backButton->setIconSize(QSize(64, 64));
+        backButton->setStyleSheet(R"(
+            QPushButton {
+                border: none;
+            })"
         );
 
-        tournamentList = new QListWidget(this);
-        tournamentList->setStyleSheet(
-            "QListWidget {"
-            "  font-size: 16px;"
-            "  padding: 5px;"
-            "  border: 1px solid #ccc;"
-            "  border-radius: 5px;"
-            "}"
-        );
+        QHBoxLayout* topRow = new QHBoxLayout();
+        topRow->setContentsMargins(10, 10, 10, 0);
+        topRow->setAlignment(Qt::AlignLeft | Qt::AlignTop);
+        topRow->addWidget(backButton);
 
+        QHBoxLayout* tournamentDisplay = new QHBoxLayout;
+
+
+        
         layout->addWidget(title);
-        layout->addWidget(createButton);
-        layout->addWidget(tournamentList);
+        layout->addLayout(topRow);
+        layout->addLayout(tournamentDisplay);
         layout->setContentsMargins(20, 20, 20, 20);
         layout->setSpacing(15);
 
-        connect(createButton, &QPushButton::clicked, this, &tournamentPage::goToMainPage);
+        connect(backButton, &QPushButton::clicked, this, &tournamentPage::goToMainPage);
     }
 
 signals:
     void goToMainPage();
-
 private:
-    QPushButton* createButton;
-    QListWidget* tournamentList;
+
 };

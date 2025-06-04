@@ -42,7 +42,7 @@ public:
         tournamentList = new QListWidget(this);
         tournamentList->setStyleSheet(
             "QListWidget {"
-            "  font-size: 16px;"
+            "  font-size: 24px;"
             "  padding: 5px;"
             "  border: 1px solid #ccc;"
             "  border-radius: 5px;"
@@ -56,6 +56,8 @@ public:
         layout->setSpacing(15);
 
         connect(createButton, &QPushButton::clicked, this, createTournamentPopup);
+        connect(tournamentList, &QListWidget::itemDoubleClicked, this, selectTournament);
+        updateTournamentList(displayIndex, displaySize);
     }
 
     void createTournamentPopup() {
@@ -69,7 +71,7 @@ public:
         if (dialog.exec() == QDialog::Accepted) {
             QMap<QString, QString> values = dialog.getValues();
             apiClient::createTournament(values["Tournament name"], values["Match format"]);
-            updatetournamentList(displayIndex, displaySize);
+            updateTournamentList(displayIndex, displaySize);
         }
     }
 
@@ -77,11 +79,13 @@ public:
         QListWidgetItem *item = tournamentList->currentItem();
         if (item) {
             QString name = item->text();
-            QMessageBox::information(this, "Tournament Selected", "You selected: " + name);
+            int id = item->data(Qt::UserRole).toInt();
+            
+            emit goToTournamentPage();
         }
     }
 
-    void updatetournamentList(int displayIndex, int displaySize) {
+    void updateTournamentList(int displayIndex, int displaySize) {
         tournamentList->clear();
         nlohmann::json tournamentSubset = apiClient::getTournaments(displayIndex, displaySize);
         for (const auto& tournament : tournamentSubset) {
