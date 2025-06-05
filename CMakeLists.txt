@@ -1,4 +1,5 @@
 cmake_minimum_required(VERSION 3.20)
+include(FetchContent)
 
 project(Tournament_tracker_proj)
 set(CMAKE_CXX_STANDARD 20)
@@ -7,8 +8,10 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 set(CMAKE_AUTORCC ON)
 
 find_package(Qt6 COMPONENTS Core Widgets Gui REQUIRED)
-find_package(cpr REQUIRED)
 find_package(nlohmann_json REQUIRED)
+
+FetchContent_Declare(cpr GIT_REPOSITORY https://github.com/libcpr/cpr.git)
+FetchContent_MakeAvailable(cpr)
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)

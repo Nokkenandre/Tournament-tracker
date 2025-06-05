@@ -55,8 +55,8 @@ public:
         layout->setContentsMargins(20, 20, 20, 20);
         layout->setSpacing(15);
 
-        connect(createButton, &QPushButton::clicked, this, createTournamentPopup);
-        connect(tournamentList, &QListWidget::itemDoubleClicked, this, selectTournament);
+        connect(createButton, &QPushButton::clicked, this, &mainPage::createTournamentPopup);
+        connect(tournamentList, &QListWidget::itemDoubleClicked, this, &mainPage::selectTournament);
         updateTournamentList(displayIndex, displaySize);
     }
 
