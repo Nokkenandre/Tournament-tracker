@@ -95,6 +95,20 @@ def get_tournaments():
     subset = tournaments[start:end]
     subset_dicts = [t.to_dict() for t in subset]
     return jsonify(subset_dicts)
+
+@app.route("/set_up_tournament", methods=["POST"])
+def set_up_tournaments():
+    data = request.get_json()
+    
+    # Padds the list with dummy entries up to the closest power of 2 (E.g. 2, 4, 8, 16 etc.)
+    n = len(teams)
+    power = 1
+    while power < n:
+        power <<= 1
+    teams.extend(['BYE'] * (power - n))
+    
+    
+
     
 if __name__ == "__main__":
     app.run(host="localhost", port=5000)  # Running the server on localhost:5000
