@@ -1,4 +1,3 @@
-from dataclasses import dataclass
 from enum import Enum
 
 class Match_format(Enum):
@@ -8,7 +7,7 @@ class Match_format(Enum):
 
 class Tournament: 
     def __init__(self, tournament_id, name, match_format):
-        self.obj_id = tournament_id # Todo: add id
+        self.obj_id = tournament_id
         self.name = name
         self.teams: Team = []
         self.match_format = match_format

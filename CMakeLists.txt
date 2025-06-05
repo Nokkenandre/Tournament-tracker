@@ -6,8 +6,6 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 set(CMAKE_AUTORCC ON)
 
-set(CMAKE_PREFIX_PATH "C:/Users/vigmar/MSYS2/mingw64/lib/cmake/Qt6" ${CMAKE_PREFIX_PATH})
-
 find_package(Qt6 COMPONENTS Core Widgets Gui REQUIRED)
 find_package(cpr REQUIRED)
 find_package(nlohmann_json REQUIRED)

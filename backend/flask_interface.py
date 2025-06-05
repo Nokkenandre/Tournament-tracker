@@ -70,7 +70,7 @@ def add_team():
 # {
 #   "tournament_id": tournament_id,
 #   "team_id": team_id
-#}
+# }
 
 @app.route("/add_team_to_tournament", methods=["POST"])
 def add_team_to_tournament():
