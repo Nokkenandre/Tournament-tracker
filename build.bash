@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
 
-docker build -t tournament-tracker-vnc .
+set -e
 
-docker run -p 5900:5900 -it tournament-tracker-vnc
+docker build -t tournament-tracker .

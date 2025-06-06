@@ -17,23 +17,23 @@ RUN apt-get update && apt-get install -y \
     x11vnc \
     xvfb \
     fluxbox \
+    libwayland-client0 \
+    libxkbcommon0 \
     && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /app
 
 COPY requirements.txt .
 RUN python3 -m venv /opt/venv
 ENV PATH="/opt/venv/bin:$PATH"
 RUN pip install --no-cache-dir -r requirements.txt
 
-WORKDIR /app
-
-COPY entrypoint.sh /app/entrypoint.sh
-RUN chmod +x /app/entrypoint.sh
-ENTRYPOINT ["/app/entrypoint.sh"]
-
 COPY . .
+
+RUN chmod +x /app/entrypoint.sh
 
 RUN mkdir -p build && cd build && \
     cmake .. && \
     make
 
-CMD ["/bin/bash"]
+ENTRYPOINT ["/app/entrypoint.sh"]

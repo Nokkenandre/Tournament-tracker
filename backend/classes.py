@@ -32,7 +32,7 @@ class Team:
         self.tournaments: Tournament = []
         
     def print_values(self):
-        print(f"{self.team_id=} \n{self.name=} \n{self.Players=}")
+        print(f"{self.team_id=} \n{self.name=}")
     
     def to_dict(self):
         return {

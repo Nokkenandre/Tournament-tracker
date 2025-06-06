@@ -7,7 +7,6 @@
 #include <QListWidget>
 #include <QMessageBox>
 
-#include <nlohmann/json.hpp>
 #include <cpr/cpr.h>
 #include "apiClient.h"
 #include "inputDialog.h"

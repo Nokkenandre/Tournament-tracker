@@ -26,6 +26,7 @@ nlohmann::json apiClient::createTournament(const QString& name, QString matchFor
         std::cerr << r.status_code << r.text << std::endl;
         return {{"error", "Request failed"}, {"status", r.status_code}};
     }
+    
 }
 
 //  Json expected by /createTeam
@@ -47,31 +48,10 @@ nlohmann::json apiClient::createTeam(const QString& name) {
         return nlohmann::json::parse(r.text);
     } else {
         std::cerr << r.status_code << r.text << std::endl;
+        
         return {{"error", "Request failed"}, {"status", r.status_code}};
     }
-}
-
-// Json expected by /createPlayer
-// {
-//   "name": "string",
-// }
-nlohmann::json apiClient::createPlayer(const QString& name) {
-    nlohmann::json payload = {
-        {"name", name.toStdString()}
-    };
-
-    cpr::Response r = cpr::Post(
-        cpr::Url{"http://127.0.0.1:5000/process"},
-        cpr::Header{{"Content-Type", "application/json"}},
-        cpr::Body{payload.dump()}
-    );
-
-    if (r.status_code == 200) {
-        return nlohmann::json::parse(r.text);
-    } else {
-        std::cerr << r.status_code << r.text << std::endl;
-        return {{"error", "Request failed"}, {"status", r.status_code}};
-    }
+    
 }
 
 // Returns info about all tournaments

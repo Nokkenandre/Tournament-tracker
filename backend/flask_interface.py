@@ -107,9 +107,6 @@ def set_up_tournaments():
         power <<= 1
     teams.extend(['BYE'] * (power - n))
     
-    
-
-    
 if __name__ == "__main__":
     app.run(host="localhost", port=5000)  # Running the server on localhost:5000
     
